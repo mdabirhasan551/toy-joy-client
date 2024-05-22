@@ -1,6 +1,30 @@
-import { Link } from "react-router-dom";
+import { useContext } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { AuthContext } from "../Providers/Authprovider";
 
 const Register = () => {
+  const { createUser } = useContext(AuthContext);
+  const navigate = useNavigate();
+
+  const handleLogin = async (event) => {
+    event.preventDefault();
+    const form = event.target.elements;
+    const name = form.displayName.value;
+    const email = form.email.value;
+    const password = form.password.value;
+
+    createUser(email, password)
+     .then((result) => {
+        const createdUser = result.user;
+        createdUser.displayName = name;
+        console.log(createdUser);
+        navigate("/");
+      })
+     .catch((error) => {
+        console.log(error.message);
+      });
+  };
+
   return (
     <div>
       <div className="hero min-h-screen">
@@ -12,16 +36,14 @@ const Register = () => {
             className="card flex-shrink-0 w-full max-w-md shadow-2xl bg-base-100"
             style={{ width: "25rem" }}
           >
-            {" "}
-            {/* Changed max-w-md and added inline style */}
-            <form className="card-body">
+            <form onSubmit={handleLogin} className="card-body">
               <div className="form-control">
                 <label className="label">
                   <span className="label-text">Name</span>
                 </label>
                 <input
                   type="text"
-                  name="name"
+                  name="displayName"
                   placeholder="Name"
                   className="input input-bordered"
                   required
@@ -50,11 +72,17 @@ const Register = () => {
                   className="input input-bordered"
                   required
                 />
-                <p className="text-center mt-4">Already have an account? <Link className="font-bold text-success" to="/login">Login</Link>
+                <p className="text-center mt-4">
+                  Already have an account?{" "}
+                  <Link className="font-bold text-success" to="/login">
+                    Login
+                  </Link>
                 </p>
               </div>
               <div className="form-control mt-6">
-                <button className="btn btn-error"><p className="font-bold text-xl text-white">Register</p></button>
+                <button className="btn btn-error">
+                  <p className="font-bold text-xl text-white">Register</p>
+                </button>
               </div>
             </form>
             <div className="divider">OR</div>

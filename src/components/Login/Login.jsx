@@ -1,6 +1,28 @@
-import { Link } from "react-router-dom";
+/* eslint-disable no-unused-vars */
+/* eslint-disable react/no-unescaped-entities */
+import { useContext } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { AuthContext } from "../Providers/Authprovider";
 
 const Login = () => {
+  const { loginUser } = useContext(AuthContext);
+  const navigate = useNavigate();
+  const location = useLocation();
+  const from = location.state?.from?.pathname || "/";
+
+  const handleLogin = (event) => {
+    event.preventDefault();
+    const form = event.target.elements;
+    const email = form.email.value;
+    const password = form.password.value;
+
+    loginUser(email, password)
+      .then((result) => {
+        const loggedUser = result.user;
+        navigate(from, { replace: true });
+      })
+      .catch((error) => console.log(error));
+  };
   return (
     <div>
       <div className="hero min-h-screen">
@@ -12,7 +34,7 @@ const Login = () => {
             className="card flex-shrink-0 w-full max-w-md shadow-2xl bg-base-100"
             style={{ width: "25rem" }}
           >
-            <form className="card-body">
+            <form onSubmit={handleLogin} className="card-body">
               <div className="form-control">
                 <label className="label">
                   <span className="label-text">Email</span>
@@ -36,11 +58,17 @@ const Login = () => {
                   className="input input-bordered"
                   required
                 />
-                <p className="text-center mt-4">Don't have an account? <Link className="font-bold text-error" to="/register">Register Now</Link>
+                <p className="text-center mt-4">
+                  Don't have an account?{" "}
+                  <Link className="font-bold text-error" to="/register">
+                    Register Now
+                  </Link>
                 </p>
               </div>
               <div className="form-control mt-6">
-                <button className="btn btn-success"><p className="font-bold text-xl text-white">Login</p></button>
+                <button className="btn btn-success">
+                  <p className="font-bold text-xl text-white">Login</p>
+                </button>
               </div>
             </form>
             <div className="divider">OR</div>
