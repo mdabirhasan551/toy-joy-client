@@ -12,6 +12,7 @@ const router = createBrowserRouter([
       {
         path: "/",
         element: <Home />,
+        loader: ()=> fetch('../../../public/allToys.json')
       },
       {
         path: "/login",

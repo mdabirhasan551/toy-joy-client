@@ -52,7 +52,7 @@ const Navigation = () => {
               </li>
               <li>
                 <Link to="/" className="text-lg">
-                  About Us
+                  Blogs 
                 </Link>
               </li>
             </ul>
@@ -86,9 +86,21 @@ const Navigation = () => {
             </li>
             <li>
               <Link to="/" className="text-xl font-bold">
-                About Us
+                Blogs
               </Link>
             </li>
+            {
+              user && <div className="flex"><li>
+              <Link to="/" className="text-xl font-bold">
+                Add a Toy
+              </Link>
+            </li><li>
+              <Link to="/" className="text-xl font-bold">
+                My Toy
+              </Link>
+            </li></div>
+            
+            }
           </ul>
         </div>
         <div className="navbar-end space-x-6">

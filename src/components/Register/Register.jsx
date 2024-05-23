@@ -1,6 +1,9 @@
+/* eslint-disable no-unused-vars */
 import { useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../Providers/Authprovider";
+import Swal from "sweetalert2";
+import Footer from "../Footer/Footer";
 
 const Register = () => {
   const { createUser } = useContext(AuthContext);
@@ -14,14 +17,26 @@ const Register = () => {
     const password = form.password.value;
 
     createUser(email, password)
-     .then((result) => {
+      .then((result) => {
         const createdUser = result.user;
         createdUser.displayName = name;
+        Swal.fire({
+          position: "center",
+          icon: "success",
+          title: "Successfully Registered",
+          showConfirmButton: false,
+          timer: 1500,
+        });
         console.log(createdUser);
         navigate("/");
       })
-     .catch((error) => {
-        console.log(error.message);
+      .catch((error) => {
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: "Something went wrong!",
+          footer: "<p>Please try again with valid credentials</p>",
+        });
       });
   };
 
@@ -97,6 +112,7 @@ const Register = () => {
           </div>
         </div>
       </div>
+      <Footer />
     </div>
   );
 };

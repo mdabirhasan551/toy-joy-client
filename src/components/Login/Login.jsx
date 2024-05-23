@@ -3,6 +3,8 @@
 import { useContext } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { AuthContext } from "../Providers/Authprovider";
+import Swal from "sweetalert2";
+import Footer from "../Footer/Footer";
 
 const Login = () => {
   const { loginUser } = useContext(AuthContext);
@@ -19,9 +21,23 @@ const Login = () => {
     loginUser(email, password)
       .then((result) => {
         const loggedUser = result.user;
+        Swal.fire({
+          position: "center",
+          icon: "success",
+          title: "Successfully logged in",
+          showConfirmButton: false,
+          timer: 1500,
+        });
         navigate(from, { replace: true });
       })
-      .catch((error) => console.log(error));
+      .catch((error) =>
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: "Something went wrong!",
+          footer: "<p>Please try again with valid credentials</p>",
+        })
+      );
   };
   return (
     <div>
@@ -83,6 +99,7 @@ const Login = () => {
           </div>
         </div>
       </div>
+      <Footer />
     </div>
   );
 };
