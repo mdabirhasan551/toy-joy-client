@@ -1,23 +1,41 @@
-/* eslint-disable react/jsx-key */
 import { useLoaderData } from "react-router-dom";
 import HomeCarousel from "./HomeCarousel";
-import { Carousel } from "@material-tailwind/react";
 import Footer from "../Footer/Footer";
+import HomeCards from "./HomeCards"; // Importing HomeCards component
 
 const Home = () => {
   const datas = useLoaderData();
-  console.log(datas);
+
   return (
-    <>
-      <Carousel transition={{ duration: 1 }} className="rounded-xl">
-        {datas.map((data) => (
-          <div>
-            <HomeCarousel key={data.id} data={data} />
+    <div className="min-h-screen flex flex-col justify-between">
+      <div className="carousel w-full relative">
+        {datas.map((data, index) => (
+          <div
+            key={data.id}
+            id={`slide${index}`}
+            className="carousel-item w-full relative"
+          >
+            <HomeCarousel data={data} />
+            <div className="absolute flex justify-between transform -translate-y-1/2 left-5 right-5 top-1/2">
+              <a
+                href={`#slide${index === 0 ? datas.length - 1 : index - 1}`}
+                className="btn btn-circle bg-black-500 text-black"
+              >
+                ❮
+              </a>
+              <a
+                href={`#slide${index === datas.length - 1 ? 0 : index + 1}`}
+                className="btn btn-circle bg-black-500 text-"
+              >
+                ❯
+              </a>
+            </div>
           </div>
         ))}
-      </Carousel>
+      </div>
+      <HomeCards datas={datas} /> {/* Rendering HomeCards component */}
       <Footer />
-    </>
+    </div>
   );
 };
 

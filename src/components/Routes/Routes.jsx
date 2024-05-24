@@ -12,7 +12,7 @@ const router = createBrowserRouter([
       {
         path: "/",
         element: <Home />,
-        loader: ()=> fetch('../../../public/allToys.json')
+        loader: ()=> fetch('http://localhost:5000/')
       },
       {
         path: "/login",

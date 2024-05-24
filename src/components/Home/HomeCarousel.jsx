@@ -1,15 +1,10 @@
 /* eslint-disable react/prop-types */
 const HomeCarousel = ({ data }) => {
   const { banner } = data;
-  console.log(banner);
 
   return (
-    <div className="bg-gradient-to-tr from-black to-white">
-      <img
-        src={banner}
-        alt="image 1"
-        className="w-full object-cover" style={{height: '600px',}}
-      />
+    <div className="bg-gradient-to-tr from-black to-white w-full flex items-center justify-center">
+      <img src={banner} alt="Banner" className="w-full h-full object-cover" />
     </div>
   );
 };
